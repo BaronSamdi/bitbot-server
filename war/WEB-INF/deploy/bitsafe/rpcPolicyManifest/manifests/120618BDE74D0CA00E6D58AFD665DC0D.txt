@@ -1,0 +1,2 @@
+serviceClass: com.amiramit.bitsafe.client.service.LoginInfoService
+path: ED870BF8E1806FDDB19C06ACE3E67980.gwt.rpc

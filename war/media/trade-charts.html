@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="shortcut icon" href="../favicon.ico">
+
+<title>Bitrule Charts</title>
+
+<!-- Bootstrap core CSS -->
+<link href="../css/bootstrap.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="../css/offcanvas.css" rel="stylesheet">
+
+<!-- Just for debugging purposes. Don't actually copy this line! -->
+<!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+	<div class="navbar-wrapper">
+		<div class="container">
+			<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#" style="color: White;">Bitrule</a>
+					</div>
+					<div class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li><a href="../HomePage.html">Home</a></li>
+							<!-- li><a href="about/about.html">About</a></li -->
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown">About <b class="caret"></b></a>
+								<ul class="dropdown-menu" style="background-color: #dddddd;">
+									<li><a href="../about/about-bitrule.html">About
+											Bitrule</a></li>
+									<li><a href="../about/about-how-it-works.html">How it
+											works</a></li>
+									<li><a href="../about/about-cloud.html">Bitrule Cloud
+											Service</a></li>
+									<li><a href="../about/about-security.html">Bitrule
+											Security</a></li>
+									<li><a href="../about/about-us.html">About Us</a></li>
+								</ul></li>
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown">News <b class="caret"></b></a>
+								<ul class="dropdown-menu" style="background-color: #dddddd;">
+									<li><a href="#">Charts</a></li>
+									<li><a href="trade-charts.html">In the News</a></li>
+									<!-- >li><a href="about/about-how-it-works.html">How it works</a></li>
+									<li><a href="about/about-cloud.html">Bitrule Cloud Service</a></li>
+									<li><a href="about/about-security.html">Bitrule Security</a></li>
+									<li><a href="about/about-us.html">About Us</a></li -->
+								</ul></li>
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown">Contact Us <b class="caret"></b></a>
+								<ul class="dropdown-menu" style="background-color: #dddddd;">
+									<li><a href="#">Support</a></li>
+									<li><a href="#">Careers</a></li>
+									<!-- li><a href="about/about-cloud.html">Bitrule Cloud Service</a></li>
+									<li><a href="about/about-security.html">Bitrule Security</a></li>
+									<li><a href="about/about-us.html">About Us</a></li -->
+								</ul></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="../register.html">Register</a></li>
+							<li class="dropdown"><a href="http://www.jquery2dotnet.com"
+								class="dropdown-toggle" data-toggle="dropdown">Sign in <b
+									class="caret"></b></a>
+								<ul class="dropdown-menu"
+									style="padding: 15px; min-width: 250px;">
+									<li>
+										<div class="row">
+											<div class="col-md-12">
+												<form class="form" role="form" method="post" action="login"
+													accept-charset="UTF-8" id="login-nav">
+													<div class="form-group">
+														<label class="sr-only" for="exampleInputEmail2">Email
+															address</label> <input type="email" class="form-control"
+															id="exampleInputEmail2" placeholder="Email address"
+															required>
+													</div>
+													<div class="form-group">
+														<label class="sr-only" for="exampleInputPassword2">Password</label>
+														<input type="password" class="form-control"
+															id="exampleInputPassword2" placeholder="Password"
+															required>
+													</div>
+													<div class="checkbox">
+														<label> <input type="checkbox"> Remember
+															me
+														</label>
+													</div>
+													<div class="form-group">
+														<button type="submit" class="btn btn-success btn-block">Sign
+															in</button>
+													</div>
+													<div class="form-group">
+														<a href="../reset-psswd.html">Forgot Password?</a>
+													</div>
+												</form>
+											</div>
+										</div>
+									</li>
+									<li class="divider"></li>
+									<li><input class="btn btn-primary btn-block" type="button"
+										id="sign-in-google" value="Sign In with Google"> <input
+										class="btn btn-primary btn-block" type="button"
+										id="sign-in-facebook" value="Sign In with Facebook"></li>
+								</ul></li>
+						</ul>
+					</div>
+					<!--/.navbar-collapse -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<!-- div class="row row-offcanvas row-offcanvas-right">
+
+			<div class="col-xs-12 col-sm-9">
+				<p class="pull-right visible-xs">
+					<button type="button" class="btn btn-primary btn-xs"
+						data-toggle="offcanvas">Toggle nav</button>
+				</p-->
+
+		<div class="jumbotron" style="background-color: #BAE0FF;">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-4">
+						<h2 class="">Market Data - Past 24h</h2>
+						<!-- div class="">
+                    					<img src="http://www.harrogatepoker.co.uk/profile/HPL%20V%20Logo%20%20Revised%20and%20Further%20reduced.jpg" class="img-responsive text-center" />
+               						 </div -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 col-sm-6 col-lg-4">
+				<h2>MtGox</h2>
+				<p>
+					<a href="http://bitcoinity.org/markets/mtgox/USD" target="_blank">
+						<img
+						src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=USD&exchange=mtgox"
+						alt="bitcoin price chart" />
+					</a>
+				</p>
+			</div>
+			<!--/span-->
+			<div class="col-6 col-sm-6 col-lg-4">
+				<h2>Bitstamp</h2>
+				<p>
+					<a href="http://bitcoinity.org/markets/bitstamp/USD"
+						target="_blank"> <img
+						src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=USD&exchange=bitstamp"
+						alt="bitcoin price chart" />
+					</a>
+				</p>
+			</div>
+			<!--/span-->
+			<div class="col-6 col-sm-6 col-lg-4">
+				<h2>BTCE</h2>
+				<p>
+					<a href="http://bitcoinity.org/markets/btce/USD" target="_blank">
+						<img
+						src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=USD&exchange=btce"
+						alt="bitcoin price chart" />
+					</a>
+				</p>
+			</div>
+			<!--/span-->
+			<div class="col-6 col-sm-6 col-lg-4">
+				<h2>local BC</h2>
+				<p>
+					<a href="http://bitcoinity.org/markets/localbitcoins/USD"
+						target="_blank"> <img
+						src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=USD&exchange=localbitcoins"
+						alt="bitcoin price chart" />
+					</a>
+				</p>
+			</div>
+			<!--/span-->
+			<div class="col-6 col-sm-6 col-lg-4">
+				<h2>Justcoin</h2>
+				<p>
+					<a href="http://bitcoinity.org/markets/justcoin/USD"
+						target="_blank"> <img
+						src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=USD&exchange=justcoin"
+						alt="bitcoin price chart" />
+					</a>
+				</p>
+			</div>
+			<!--/span-->
+			<div class="col-6 col-sm-6 col-lg-4">
+				<h2>BitQuick</h2>
+				<p>
+					<a href="http://bitcoinity.org/markets/bitquick/USD"
+						target="_blank"> <img
+						src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=USD&exchange=bitquick"
+						alt="bitcoin price chart" />
+					</a>
+				</p>
+			</div>
+			<!--/span-->
+		</div>
+		<!--/row-->
+		<!-- /div -->
+		<!--/span-->
+
+		<!--/span-->
+		<!--  /div -->
+		<!--/row-->
+
+		<hr>
+
+		<footer>
+			<div class="container text-center">
+
+				<p class="pull-right">
+					<a href="#">Back to top</a>
+				</p>
+				<p>
+				&copy; 2013 Company, Inc. &middot; <a href="../privacy-policy.html">Privacy</a> &middot;
+				<a href="../terms-of-service.html"> Terms of Service </a>&middot; <a href="#"> Contact
+					Us </a> &middot; <a href="../sign-in.html"> Sign in </a>&middot; <a
+					href="../register.html"> Register </a>
+			</p>
+			</div>
+		</footer>
+
+	</div>
+	<!-- /.container -->
+
+
+	<!-- Google Analytics -->
+	<!--  script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-13208639-1']);
+  // _gaq.push(['_setDomainName', 'bitrule.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script -->
+
+	<!-- usabilla is a UX feedback service provider -->
+	<!-- begin usabilla live embed code -->
+	<!-- script type="text/javascript">/*{literal}<![CDATA[*/window.lightningjs||function(c){function g(b,d){d&&(d+=(/\?/.test(d)?"&":"?")+"lv=1");c[b]||function(){var i=window,h=document,j=b,g=h.location.protocol,l="load",k=0;(function(){function b(){a.P(l);a.w=1;c[j]("_load")}c[j]=function(){function m(){m.id=e;return c[j].apply(m,arguments)}var b,e=++k;b=this&&this!=i?this.id||0:0;(a.s=a.s||[]).push([e,b,arguments]);m.then=function(b,c,h){var d=a.fh[e]=a.fh[e]||[],j=a.eh[e]=a.eh[e]||[],f=a.ph[e]=a.ph[e]||[];b&&d.push(b);c&&j.push(c);h&&f.push(h);return m};return m};var a=c[j]._={};a.fh={};a.eh={};a.ph={};a.l=d?d.replace(/^\/\//,(g=="https:"?g:"http:")+"//"):d;a.p={0:+new Date};a.P=function(b){a.p[b]=new Date-a.p[0]};a.w&&b();i.addEventListener?i.addEventListener(l,b,!1):i.attachEvent("on"+l,b);var q=function(){function b(){return["<head></head><",c,' onload="var d=',n,";d.getElementsByTagName('head')[0].",d,"(d.",g,"('script')).",i,"='",a.l,"'\"></",c,">"].join("")}var c="body",e=h[c];if(!e)return setTimeout(q,100);a.P(1);var d="appendChild",g="createElement",i="src",k=h[g]("div"),l=k[d](h[g]("div")),f=h[g]("iframe"),n="document",p;k.style.display="none";e.insertBefore(k,e.firstChild).id=o+"-"+j;f.frameBorder="0";f.id=o+"-frame-"+j;/MSIE[ ]+6/.test(navigator.userAgent)&&(f[i]="javascript:false");f.allowTransparency="true";l[d](f);try{f.contentWindow[n].open()}catch(s){a.domain=h.domain,p="javascript:var d="+n+".open();d.domain='"+h.domain+"';",f[i]=p+"void(0);"}try{var r=f.contentWindow[n];r.write(b());r.close()}catch(t){f[i]=p+'d.write("'+b().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};a.l&&setTimeout(q,0)})()}();c[b].lv="1";return c[b]}var o="lightningjs",k=window[o]=g(o);k.require=g;k.modules=c}({});
+window.usabilla_live = lightningjs.require("usabilla_live", "//w.usabilla.com/81ac0e0de43d.js");
+/*]]>{/literal}*/</script -->
+	<!-- end usabilla live embed code -->
+
+
+	<!-- Perfect Audience is a service that retracts site vistors via social network ads -->
+	<!-- Perfect Audience conversion tracking. See https://www.perfectaudience.com/docs#documentation_autoopen -->
+	<!-- script type="text/javascript">
+  (function() {
+    window._pa = window._pa || {};
+    // _pa.orderId = "myUser@email.com"; // OPTIONAL: include your user's email address or order ID
+    // _pa.revenue = "19.99"; // OPTIONAL: include dynamic purchase value for the conversion
+    // _pa.onLoadEvent = "sign_up"; // OPTIONAL: name of segment/conversion to be fired on script load
+    var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.async = true;
+    pa.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + "//tag.perfectaudience.com/serve/506695648c54f60002000032.js";
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+  })();
+</script -->
+
+
+	<!-- CrazyEgg is a service that maps user click hot spots on the site to help understand
+better UX and improve conversion rate -->
+	<!-- script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0012/7009.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script -->
+
+
+	<!-- Chartbeat is a real time site user data service -->
+	<!-- script type="text/javascript">
+var _sf_async_config={uid:13674,domain:"bitrule.com"};
+(function(){
+  function loadChartbeat() {
+    window._sf_endpt=(new Date()).getTime();
+    var e = document.createElement('script');
+    e.setAttribute('language', 'javascript');
+    e.setAttribute('type', 'text/javascript');
+    e.setAttribute('src',
+       (("https:" == document.location.protocol) ? "https://s3.amazonaws.com/" : "http://") +
+       "static.chartbeat.com/js/chartbeat.js");
+    document.body.appendChild(e);
+  }
+  var oldonload = window.onload;
+  window.onload = (typeof window.onload != 'function') ?
+     loadChartbeat : function() { oldonload(); loadChartbeat(); };
+})();
+</script -->
+
+
+	<!-- Mixpanel is a mobile and web analytics service-->
+	<!-- script type="text/javascript">
+var mpq = [];
+mpq.push(["init", "1b5e183a596c884095c865e3d26dad12"]);
+mpq.push(["track", document.location.pathname, {}]);
+(function() {
+var mp = document.createElement("script"); mp.type = "text/javascript"; mp.async = true;
+mp.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + "//api.mixpanel.com/site_media/js/api/mixpanel.js";
+var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(mp, s);
+})();
+</script -->
+
+	<!-- KISSmetrics  is a customer intelligence and web analytics service-->
+	<!-- script type="text/javascript">
+  // Set KM_COOKIE_DOMAIN to prevent the cookie from appearing on unsafe
+  // subdomains (www.optimizelyedit.com) which are allowed to run third party
+  // code. This is important because KM exposes identity (email addresses) in
+  // the km_ai cookie.
+  // http://support.kissmetrics.com/apis/javascript/javascript-specific
+  var KM_COOKIE_DOMAIN = document.location.hostname || "www.bitrule.com";
+  var _kmq = _kmq || [];
+  _kmq.push(['record', document.location.pathname]);
+  function _kms(u){
+    setTimeout(function(){
+      var s = document.createElement('script'); var f = document.getElementsByTagName('script')[0]; s.type = 'text/javascript'; s.async = true;
+      s.src = u; f.parentNode.insertBefore(s, f);
+    }, 1);
+  }
+  _kms('//i.kissmetrics.com/i.js');
+  _kms('//doug1izaerwt3.cloudfront.net/77dea05a92e424e6ada1ef732acc92d17bfc199e.1.js');
+</script -->
+
+
+	<!-- Marketo is a marketing service -->
+	<!-- script src="//munchkin.marketo.net/munchkin.js" type="text/javascript"></script>
+<script>mktoMunchkin("361-GER-922");</script -->
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/holder.js"></script>
+</body>
+</html>

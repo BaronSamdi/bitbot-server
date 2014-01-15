@@ -1,0 +1,2 @@
+serviceClass: com.amiramit.bitsafe.client.service.RuleService
+path: C946F0E89BE8E8C59F53632FD059C271.gwt.rpc

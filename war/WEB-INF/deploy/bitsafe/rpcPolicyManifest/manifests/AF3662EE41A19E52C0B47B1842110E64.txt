@@ -1,0 +1,2 @@
+serviceClass: com.amiramit.bitsafe.client.service.PushService
+path: 995186AD3717538A225CDF38332C8466.gwt.rpc

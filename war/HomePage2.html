@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<title>Welcome to Bitsafe</title>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-31837744-2', 'bitrule.com');
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+
+	<!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+	<noscript>
+		<div
+			style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+			Your web browser must have JavaScript enabled in order for this
+			application to display correctly.</div>
+	</noscript>
+
+	<h1>Bitsafe MtGox Ticker Page</h1>
+
+	<form name="input" action="login" method="post">
+		<input type="hidden" name="u" value="/myrules.html?gwt.codesvr=localhost:9997">
+		<p><label><input type="checkbox" name="isNew" id="isNew">New Account</label></p>		
+		<p><input type="text" name="userId" value="" placeholder="Username or Email"></p>
+		<p><input type="text" name="email" value="" placeholder="Email"></p>
+		<p><input type="password" name="candidate" value="" placeholder="password"></p>
+		 
+		<select	name="p" id="p"">
+			<option value="GOOGLE">Google</option>
+			<option value="FACEBOOK">FaceBook</option>
+			<option value="INT">Internal</option>
+		</select> 
+		<input type="submit" value="Submit">
+	</form>
+</body>
+</html>
