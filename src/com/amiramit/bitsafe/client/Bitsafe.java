@@ -7,12 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.ButtonGroup;
-import org.gwtbootstrap3.client.ui.DropDownHeader;
-import org.gwtbootstrap3.client.ui.ListItem;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import org.gwtbootstrap3.client.ui.constants.Toggle;
-import org.gwtbootstrap3.client.ui.DropDownMenu;
 
 import com.amiramit.bitsafe.client.channel.Channel;
 import com.amiramit.bitsafe.client.channel.ChannelListener;
@@ -84,11 +79,13 @@ public class Bitsafe implements EntryPoint {
 
 	private UILoginInfo loginInfo = null;
 	private Anchor signOutLink = new Anchor("Sign Out");
+	
+	//CreateStopLossUITemplate stpLoss;
+	CreateStopLimitUITemplate stpLimit;
 
 	// Create a list data provider.
 	private ListDataProvider<RuleDTO> rulesDataProvider;
 	private CellTable<RuleDTO> rulesTable;
-	private Modal modal = new Modal();
 
 	interface CellTableResources extends CellTable.Resources {
 		@Override
@@ -355,13 +352,25 @@ public class Bitsafe implements EntryPoint {
 		RootPanel.get("lastUpdatedContainer").add(lastUpdatedLabel);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 
+		//stpLoss = new CreateStopLossUITemplate();
+		stpLimit = new CreateStopLimitUITemplate();
 		
+		// add button groups to root panel 
+		/*
+		RootPanel.get("dropDownButtonGroup1").add(stpLoss.getExchangeButtonGroup());
+		RootPanel.get("dropDownButtonGroup2").add(stpLoss.getPriceTriggerButtonGroup());
+		RootPanel.get("dropDownButtonGroup3").add(stpLoss.getPriceValueInputGroup());
+		RootPanel.get("dropDownButtonGroup4").add(stpLoss.getActionButtonGroup());
+		RootPanel.get("dropDownButtonGroup5").add(stpLoss.getAactionAmountInputGroup());
+		RootPanel.get("dropDownButtonGroup6").add(stpLoss.getNotifyMeByInputGroup());
+		*/
 		
-		// add button groups to root panel
-		RootPanel.get("dropDownButtonGroup1").add(modal.getButtonGroup(0));
-		RootPanel.get("dropDownButtonGroup2").add(modal.getButtonGroup(1));
-		RootPanel.get("dropDownButtonGroup3").add(modal.getButtonGroup(2));
-		RootPanel.get("dropDownButtonGroup4").add(modal.getButtonGroup(3));
+		RootPanel.get("dropDownButtonGroup1").add(stpLimit.getExchangeButtonGroup());
+		RootPanel.get("dropDownButtonGroup2").add(stpLimit.getAbovePriceValueInputGroup());
+		RootPanel.get("dropDownButtonGroup3").add(stpLimit.getBelowPriceValueInputGroup());
+		RootPanel.get("dropDownButtonGroup4").add(stpLimit.getActionButtonGroup());
+		RootPanel.get("dropDownButtonGroup5").add(stpLimit.getAactionAmountInputGroup());
+		RootPanel.get("dropDownButtonGroup6").add(stpLimit.getNotifyMeByInputGroup());
 		
 		final Button saveRuleButton = new Button("Save Changes");
 		saveRuleButton.setType(ButtonType.PRIMARY);
@@ -369,7 +378,10 @@ public class Bitsafe implements EntryPoint {
 
 			@Override
 			public void onClick(final ClickEvent event) {
-				addRule();
+				if(stpLimit.vlidateOnSubmission())
+					addRule();
+				else
+					return;
 			}
 		});
 		RootPanel.get("addNewRuleButton").add(saveRuleButton);

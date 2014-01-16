@@ -1,12 +1,15 @@
 package com.amiramit.bitsafe.shared;
 
-public enum Exchange {
-	MtGox(new CurrencyPair[] { CurrencyPair.BTCUSD });
+public enum Exchange {	
+	
+	MtGox(new CurrencyPair[] { CurrencyPair.BTCUSD }, new String("Mt. Gox"));
 
 	private CurrencyPair[] supportedCurrencyPairs;
+	private String uiDispalyName;
 
-	Exchange(final CurrencyPair[] supportedCurrencyPairs) {
+	Exchange(final CurrencyPair[] supportedCurrencyPairs, String uiDisplayName) {
 		this.supportedCurrencyPairs = supportedCurrencyPairs;
+		this.uiDispalyName = uiDisplayName;
 	}
 
 	public CurrencyPair[] getSupportedCurrencyPairs() {
@@ -21,5 +24,9 @@ public enum Exchange {
 		}
 
 		return false;
+	}
+	
+	public String getUIDisplayName(){
+		return uiDispalyName;
 	}
 }
