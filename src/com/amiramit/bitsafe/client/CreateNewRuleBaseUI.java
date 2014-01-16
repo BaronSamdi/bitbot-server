@@ -27,33 +27,32 @@ public abstract class CreateNewRuleBaseUI{
 	
 	protected String[] actionStrings = {"Alert Me","Buy", "Sell"};
 	protected String[] StopLossTriggerStrings = {"Price Drops Below","Price Rises Above"};
-	protected String[] LimitTriggerStrings = {"Price Is Above","Price is Below"};
+	protected String[] LimitTriggerStrings = {"Price Is in the Range"};
 	
 	
-	// Groups to encapsulate drop down buttons, menus and text boxes
+	// Exchanges drop down elements
 	protected ButtonGroup exchangeButtonGroup;
-	protected InputGroup actionAmountInputGroup;
-	protected ButtonGroup actionButtonGroup;
-	protected InputGroup notifyMeByInputGroup;
-
-	// buttons, input group addons
 	protected Button exchangeDropDownButton;
-	protected InputGroupAddon actionAmountGroupAddon;
-	protected Button actionDropDownButton;
-	protected InputGroupButton notifyMeByGroupButton;
-
-	// Drop down menus, text boxes, check boxes
 	protected DropDownMenu exchangeDropdownMenu;
-	protected DropDownMenu actionDropdownMenu;
+	protected ListItem[] exchangeListItems;
+	
+	// Action amount elements
+	protected InputGroup actionAmountInputGroup;
+	protected InputGroupAddon actionAmountGroupAddon;
 	protected TextBox actionAmountTextBox;
+	
+	// Selected action elements 
+	protected ButtonGroup actionButtonGroup;
+	protected Button actionDropDownButton;
+	protected DropDownMenu actionDropdownMenu;
+	protected ListItem[] actionListItems;
+	
+	// Notification elements 
+	protected InputGroup notifyMeByInputGroup;
+	protected InputGroupButton notifyMeByGroupButton;
 	protected CheckBox notifyMeByMail;
 	protected CheckBox notifyMeBySMS;
-
-	// List items for drop down menus
-	protected ListItem[] exchangeListItems;
-	protected ListItem[] priceTriggerListItems;
-	protected ListItem[] actionListItems;
-
+	
 	private int index;
 
 	public CreateNewRuleBaseUI(final Exchange[] exchanges, final CurrencyPair[] currencyPairs,
@@ -65,82 +64,63 @@ public abstract class CreateNewRuleBaseUI{
 	}
 	
 	
-	protected void initExchangeUIElement(){
+	protected void initExchangeElement(){
 		
 		exchangeButtonGroup = new ButtonGroup();
 		exchangeDropDownButton = new Button();
-		exchangeDropdownMenu = new DropDownMenu();
-		int numOfExchanges = this.exchanges.length;
-		this.exchangeListItems = new ListItem[numOfExchanges];
-		exchangeDropDownButton.setType(ButtonType.INFO);
-		exchangeDropDownButton.setToggle(Toggle.DROPDOWN);
-				
-				
-		this.index = 0;
-		for (Exchange ex : Exchange.values()){
+		exchangeDropDownButton.setType(ButtonType.INFO);		
+		
+		if(this.exchanges.length > 1){
 			
-			exchangeListItems[index] = new ListItem();
-			exchangeListItems[index].setText(ex.getUIDisplayName());
+			exchangeDropdownMenu = new DropDownMenu();
+			int numOfExchanges = this.exchanges.length;
+			this.exchangeListItems = new ListItem[numOfExchanges];			
+			exchangeDropDownButton.setToggle(Toggle.DROPDOWN);
 			
-			setOnClickEvent(exchangeListItems[index], exchangeDropDownButton);
-			
-			exchangeDropdownMenu.add(exchangeListItems[index]);
-			++index;
-		}
-		
-		// Set Default exchange name to display
-		exchangeDropDownButton.setText(exchangeListItems[0].getText());
-		
-		exchangeButtonGroup.add(exchangeDropDownButton);
-		exchangeButtonGroup.add(exchangeDropdownMenu);
-	}
-	
-	
-	protected void initTriggerTypeUIElement(ButtonGroup triggerButtonGroup, Button triggerDropDownButton,
-			DropDownMenu triggerDropdownMenu, ListItem[] triggerListItems, String[] triggers){
-		
-		triggerDropDownButton.setType(ButtonType.INFO);
-		
-		// Set Default exchange name to display
-		triggerDropDownButton.setText(triggers[0]);
-		
-		if(triggers.length > 1){		
-			
-			triggerDropDownButton.setToggle(Toggle.DROPDOWN);
 		
 			this.index = 0;
-			for (; index < triggers.length; index++){
+			for (Exchange ex : Exchange.values()){
 				
-				triggerListItems[index] = new ListItem();
-				triggerListItems[index].setText(triggers[index]);
+				exchangeListItems[index] = new ListItem();
+				exchangeListItems[index].setText(ex.getUIDisplayName());
 				
-				setOnClickEvent(triggerListItems[index], triggerDropDownButton);
+				setOnClickEvent(exchangeListItems[index], exchangeDropDownButton);
 				
-				triggerDropdownMenu.add(triggerListItems[index]);
+				exchangeDropdownMenu.add(exchangeListItems[index]);
+				++index;
 			}
 			
-			triggerButtonGroup.add(triggerDropdownMenu);
+			// Set Default exchange name to display
+			exchangeDropDownButton.setText(exchangeListItems[0].getText());
+			exchangeButtonGroup.add(exchangeDropdownMenu);
+		}
+		else{
+			
+			for (Exchange ex : Exchange.values()){
+				exchangeDropDownButton.setText(ex.getUIDisplayName());
+			}
 		}
 		
-		triggerButtonGroup.add(triggerDropDownButton);
+		exchangeButtonGroup.add(exchangeDropDownButton);
 		
 	}
 	
-	protected void initPriceValueUIElement(InputGroup priceValueInputGroup, InputGroupAddon priceValueInputGroupAddon,
-			TextBox priceValueTextBox){
-				
-		priceValueTextBox.setWidth("93");
-		priceValueInputGroupAddon.setText("USD$");
-		priceValueTextBox.setPlaceholder("0.00");
+	
+	protected void initPriceBoxElement(final InputGroup priceInputGroup, final InputGroupAddon priceInputGroupAddon,
+			final TextBox priceTextBox){
+		
+		priceTextBox.setWidth("93");
+		priceInputGroupAddon.setText("USD$");
+		priceTextBox.setPlaceholder("0.00");
 		
 		
-		priceValueInputGroup.add(priceValueInputGroupAddon);
-		priceValueInputGroup.add(priceValueTextBox);
+		priceInputGroup.add(priceInputGroupAddon);
+		priceInputGroup.add(priceTextBox);
 		
 		
 	}
 	
-	protected void initActionAmountUIElement(){
+	protected void initActionAmountPriceBox(){
 	
 		actionAmountInputGroup = new InputGroup();
 		actionAmountGroupAddon = new InputGroupAddon();
@@ -157,33 +137,71 @@ public abstract class CreateNewRuleBaseUI{
 		
 	}
 	
-	protected void initActionUIElement(){
-
-		actionDropdownMenu = new DropDownMenu();
+	protected void initActionDropDownElement(){
+		
 		actionButtonGroup = new ButtonGroup();
 		actionDropDownButton = new Button();
+		actionDropdownMenu = new DropDownMenu();
 		actionListItems = new ListItem[actionStrings.length];
 		
 		actionDropDownButton.setType(ButtonType.INFO);
-		actionDropDownButton.setToggle(Toggle.DROPDOWN);
-		index = 0;
-		for (; index < actionStrings.length; index++){
-			
-			actionListItems[index] = new ListItem();
-			actionListItems[index].setText(actionStrings[index]);
-			
-			setActionOnClickEvent(actionListItems[index], actionDropDownButton, actionAmountInputGroup);
-			
-			actionDropdownMenu.add(actionListItems[index]);
-		}
 		
 		// Set Default exchange name to display
-		actionDropDownButton.setText(actionListItems[0].getText());
+		actionDropDownButton.setText(actionStrings[0]);
+		
+		if(actionStrings.length > 1){
+						
+			actionDropDownButton.setToggle(Toggle.DROPDOWN);
+		
+			this.index = 0;
+			for (; index < actionStrings.length; index++){
+				
+				actionListItems[index] = new ListItem();
+				actionListItems[index].setText(actionStrings[index]);
+				
+				setActionOnClickEvent(actionListItems[index], actionDropDownButton);
+				
+				actionDropdownMenu.add(actionListItems[index]);
+			}
+			
+			actionButtonGroup.add(actionDropdownMenu);
+		}
+				
 		actionButtonGroup.add(actionDropDownButton);
-		actionButtonGroup.add(actionDropdownMenu);
 	}
 	
-	protected void initNotifyMeByUIElement(){
+	
+	protected void initDropDownElement(final ButtonGroup bGroup, final Button ddButton, final DropDownMenu ddmenu,
+			final ListItem[] listItemsArr, final String[] ddMenuStrings){
+		
+		ddButton.setType(ButtonType.INFO);
+		
+		// Set Default exchange name to display
+		ddButton.setText(ddMenuStrings[0]);
+		
+		if(ddMenuStrings.length > 1){
+						
+			ddButton.setToggle(Toggle.DROPDOWN);
+		
+			this.index = 0;
+			for (; index < ddMenuStrings.length; index++){
+				
+				listItemsArr[index] = new ListItem();
+				listItemsArr[index].setText(ddMenuStrings[index]);
+				
+				setOnClickEvent(listItemsArr[index], ddButton);
+				
+				ddmenu.add(listItemsArr[index]);
+			}
+			
+			bGroup.add(ddmenu);
+		}
+				
+		bGroup.add(ddButton);
+	}
+	
+	
+	protected void initNotifyMeByElement(){
 		
 		notifyMeByInputGroup = new InputGroup();
 		notifyMeByGroupButton = new InputGroupButton();		
@@ -211,7 +229,7 @@ public abstract class CreateNewRuleBaseUI{
 	}
 	
 	
-	protected void setActionOnClickEvent(final ListItem listItem, final Button button, final InputGroup actionAmountInputGroup){
+	protected void setActionOnClickEvent(final ListItem listItem, final Button button){
 		
 		listItem.addClickHandler(new ClickHandler(){
 			public void onClick(final ClickEvent event) {

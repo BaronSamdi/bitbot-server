@@ -6,6 +6,9 @@ import org.gwtbootstrap3.client.ui.DropDownMenu;
 import org.gwtbootstrap3.client.ui.InputGroup;
 import org.gwtbootstrap3.client.ui.InputGroupAddon;
 import org.gwtbootstrap3.client.ui.ListItem;
+import org.gwtbootstrap3.client.ui.ModalBody;
+import org.gwtbootstrap3.client.ui.Modal;
+import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.TextBox;
 
 import com.amiramit.bitsafe.shared.CurrencyPair;
@@ -14,45 +17,72 @@ import com.google.gwt.user.client.Window;
 
 public class CreateStopLossUITemplate extends CreateNewRuleBaseUI{
 	
-	private String[] triggers;
-	
 	private ButtonGroup priceTriggerButtonGroup;
-	private InputGroup priceValueInputGroup;
 	private Button priceTriggerDropDownButton;
-	private InputGroupAddon priceValueInputGroupAddon;
 	private DropDownMenu priceTriggerDropdownMenu;
+	private ListItem[] priceTriggerListItems;
+	
+	private InputGroup priceValueInputGroup;	
+	private InputGroupAddon priceValueInputGroupAddon;	
 	private TextBox priceValueTextBox;
+	
+	private Modal modal;
+	private ModalBody modalBody;
+	private ModalFooter modalFooter;
 	
 	public CreateStopLossUITemplate() {
 		super(Exchange.values(), CurrencyPair.values(), "", "");
-		this.triggers = this.StopLossTriggerStrings;
 		init();
+		createModal();
 	}
+	
+	private void createModal(){
+		
+		modal = new Modal();
+		modalBody = new ModalBody();
+		modalFooter = new ModalFooter();
+		
+		//modalBody.add(priceTriggerButtonGroup);
+		//modalBody.add(priceValueInputGroup);
+		modal.add(modalBody);
+		modal.add(modalFooter);
+		
+		
+	}
+	
+	public Modal getModal(){
+		return modal;
+	}
+	
+	
 	
 	private void init(){
 		
-			
-		initExchangeUIElement();
-			
+		// init exchange dropdown button	
+		initExchangeElement();
+		
+		// init price trigger dropdown button
 		priceTriggerButtonGroup = new ButtonGroup();
 		priceTriggerDropDownButton = new Button();
 		priceTriggerDropdownMenu = new DropDownMenu();
-		priceTriggerListItems = new ListItem[triggers.length];		
-		initTriggerTypeUIElement(priceTriggerButtonGroup, priceTriggerDropDownButton, priceTriggerDropdownMenu,
-				priceTriggerListItems, triggers);
-			
+		priceTriggerListItems = new ListItem[this.StopLossTriggerStrings.length];		
+		initDropDownElement(priceTriggerButtonGroup, priceTriggerDropDownButton, priceTriggerDropdownMenu,
+				priceTriggerListItems, this.StopLossTriggerStrings);
 		
-		priceValueInputGroup = new InputGroup();
-		priceValueInputGroupAddon = new InputGroupAddon();
-		priceValueTextBox = new TextBox();		
-		initPriceValueUIElement(priceValueInputGroup, priceValueInputGroupAddon, priceValueTextBox);
-				
+		// init price box element for stop value
+		priceValueInputGroup = new InputGroup();	
+		priceValueInputGroupAddon = new InputGroupAddon();	
+		priceValueTextBox = new TextBox();
+		initPriceBoxElement(priceValueInputGroup, priceValueInputGroupAddon, priceValueTextBox);
 		
-		initActionAmountUIElement();	
+		// init action element (buy, sell, alert me)
+		initActionDropDownElement();
+		
+		// init action amount box
+		initActionAmountPriceBox();	
 			
-		initActionUIElement();	
-				
-		initNotifyMeByUIElement();	
+		// init notification choice check boxes		
+		initNotifyMeByElement();	
 		
 	}
 		

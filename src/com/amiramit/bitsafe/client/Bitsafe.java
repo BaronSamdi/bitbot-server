@@ -80,7 +80,7 @@ public class Bitsafe implements EntryPoint {
 	private UILoginInfo loginInfo = null;
 	private Anchor signOutLink = new Anchor("Sign Out");
 	
-	//CreateStopLossUITemplate stpLoss;
+	CreateStopLossUITemplate stpLoss;
 	CreateStopLimitUITemplate stpLimit;
 
 	// Create a list data provider.
@@ -352,36 +352,36 @@ public class Bitsafe implements EntryPoint {
 		RootPanel.get("lastUpdatedContainer").add(lastUpdatedLabel);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 
-		//stpLoss = new CreateStopLossUITemplate();
-		stpLimit = new CreateStopLimitUITemplate();
+		stpLoss = new CreateStopLossUITemplate();
+		//stpLimit = new CreateStopLimitUITemplate();
 		
 		// add button groups to root panel 
-		/*
+		//RootPanel.get("dropDownButtonGroup1").add(stpLoss.getModal());
+		///*
 		RootPanel.get("dropDownButtonGroup1").add(stpLoss.getExchangeButtonGroup());
 		RootPanel.get("dropDownButtonGroup2").add(stpLoss.getPriceTriggerButtonGroup());
 		RootPanel.get("dropDownButtonGroup3").add(stpLoss.getPriceValueInputGroup());
 		RootPanel.get("dropDownButtonGroup4").add(stpLoss.getActionButtonGroup());
 		RootPanel.get("dropDownButtonGroup5").add(stpLoss.getAactionAmountInputGroup());
 		RootPanel.get("dropDownButtonGroup6").add(stpLoss.getNotifyMeByInputGroup());
-		*/
+		//*/
 		
+		/*
 		RootPanel.get("dropDownButtonGroup1").add(stpLimit.getExchangeButtonGroup());
-		RootPanel.get("dropDownButtonGroup2").add(stpLimit.getAbovePriceValueInputGroup());
-		RootPanel.get("dropDownButtonGroup3").add(stpLimit.getBelowPriceValueInputGroup());
-		RootPanel.get("dropDownButtonGroup4").add(stpLimit.getActionButtonGroup());
-		RootPanel.get("dropDownButtonGroup5").add(stpLimit.getAactionAmountInputGroup());
-		RootPanel.get("dropDownButtonGroup6").add(stpLimit.getNotifyMeByInputGroup());
-		
+		RootPanel.get("dropDownButtonGroup2").add(stpLimit.getPriceRangeTriggerButtonGroup());
+		RootPanel.get("dropDownButtonGroup3").add(stpLimit.getAbovePriceValueInputGroup());
+		RootPanel.get("dropDownButtonGroup4").add(stpLimit.getBelowPriceValueInputGroup());
+		RootPanel.get("dropDownButtonGroup5").add(stpLimit.getActionButtonGroup());
+		RootPanel.get("dropDownButtonGroup6").add(stpLimit.getAactionAmountInputGroup());
+		RootPanel.get("dropDownButtonGroup7").add(stpLimit.getNotifyMeByInputGroup());
+		*/
 		final Button saveRuleButton = new Button("Save Changes");
 		saveRuleButton.setType(ButtonType.PRIMARY);
 		saveRuleButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(final ClickEvent event) {
-				if(stpLimit.vlidateOnSubmission())
-					addRule();
-				else
-					return;
+				addRule();	
 			}
 		});
 		RootPanel.get("addNewRuleButton").add(saveRuleButton);

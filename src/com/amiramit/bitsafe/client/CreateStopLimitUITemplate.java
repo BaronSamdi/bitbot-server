@@ -1,7 +1,11 @@
 package com.amiramit.bitsafe.client;
 
+import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.ButtonGroup;
+import org.gwtbootstrap3.client.ui.DropDownMenu;
 import org.gwtbootstrap3.client.ui.InputGroup;
 import org.gwtbootstrap3.client.ui.InputGroupAddon;
+import org.gwtbootstrap3.client.ui.ListItem;
 import org.gwtbootstrap3.client.ui.TextBox;
 
 import com.amiramit.bitsafe.shared.CurrencyPair;
@@ -10,15 +14,18 @@ import com.google.gwt.user.client.Window;
 
 public class CreateStopLimitUITemplate extends CreateNewRuleBaseUI{
 	
-	// Groups to encapsulate drop down buttons, menus and text boxes
+	private ButtonGroup priceRangeTriggerButtonGroup;
+	private Button priceRangeTriggerDropDownButton;
+	private DropDownMenu priceRangeTriggerDropdownMenu;
+	protected ListItem[] priceRangeListItems;
+	
+	
 	private InputGroup belowPriceValueInputGroup;
 	private InputGroup abovePriceValueInputGroup;
 	
-	// buttons, input group addons
 	private InputGroupAddon belowPriceValueInputGroupAddon;
 	private InputGroupAddon abovePriceValueInputGroupAddon;
 	
-	// Drop down menus, text boxes, check boxes
 	private TextBox belowPriceValueTextBox;
 	private TextBox abovePriceValueTextBox;
 	
@@ -29,24 +36,42 @@ public class CreateStopLimitUITemplate extends CreateNewRuleBaseUI{
 	}
 	
 	private void init(){
-			
-		initExchangeUIElement();
-			
-		belowPriceValueInputGroup = new InputGroup();
-		abovePriceValueInputGroup = new InputGroup();
-		belowPriceValueInputGroupAddon = new InputGroupAddon();
-		abovePriceValueInputGroupAddon = new InputGroupAddon();
-		belowPriceValueTextBox = new TextBox();
-		abovePriceValueTextBox = new TextBox();	
-		initPriceValueUIElement(belowPriceValueInputGroup, belowPriceValueInputGroupAddon, belowPriceValueTextBox);
-		initPriceValueUIElement(abovePriceValueInputGroup, abovePriceValueInputGroupAddon, abovePriceValueTextBox);
-				
-		initActionAmountUIElement();		
-				
-		initActionUIElement();	
-			
-		initNotifyMeByUIElement();	
 		
+		// init exchange dropdown button
+		initExchangeElement();
+		
+		// init price range trigger button
+		priceRangeTriggerButtonGroup = new ButtonGroup();
+		priceRangeTriggerDropDownButton = new Button();
+		priceRangeTriggerDropdownMenu = new DropDownMenu();
+		priceRangeListItems = new ListItem[this.LimitTriggerStrings.length];
+		initDropDownElement(priceRangeTriggerButtonGroup, priceRangeTriggerDropDownButton,
+				priceRangeTriggerDropdownMenu, priceRangeListItems, this.LimitTriggerStrings);
+		
+		// init price limit boxes
+		belowPriceValueInputGroup = new InputGroup();
+		belowPriceValueInputGroupAddon = new InputGroupAddon();
+		belowPriceValueTextBox = new TextBox();		
+		abovePriceValueInputGroup = new InputGroup();
+		abovePriceValueInputGroupAddon = new InputGroupAddon();
+		abovePriceValueTextBox = new TextBox();		
+		initPriceBoxElement(belowPriceValueInputGroup, belowPriceValueInputGroupAddon, belowPriceValueTextBox);
+		initPriceBoxElement(abovePriceValueInputGroup, abovePriceValueInputGroupAddon, abovePriceValueTextBox);
+		
+		// init action amount box
+		initActionAmountPriceBox();		
+				
+		// init action element (buy, sell, alert me)
+		initActionDropDownElement();
+		
+		// init notification choice check boxes
+		initNotifyMeByElement();	
+		
+	}
+	
+	
+	public ButtonGroup getPriceRangeTriggerButtonGroup(){
+		return priceRangeTriggerButtonGroup;
 	}
 	
 	public InputGroup getAbovePriceValueInputGroup(){
