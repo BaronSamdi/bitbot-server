@@ -29,4 +29,15 @@ public enum Exchange {
 	public String getUIDisplayName(){
 		return uiDispalyName;
 	}
+	
+	public Exchange getExchangeByDisplayName(String displayName){
+		
+		for(Exchange ex : Exchange.values()){
+			if((ex.getUIDisplayName().equals(displayName))){
+				return ex;
+			}
+		}
+		
+		return null;
+	}
 }

@@ -1,4 +1,7 @@
-package com.amiramit.bitsafe.client;
+package com.amiramit.bitsafe.client.ruleUI;
+
+import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.ButtonGroup;
@@ -12,14 +15,28 @@ import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.Toggle;
 
+import com.amiramit.bitsafe.client.Bitsafe;
 import com.amiramit.bitsafe.shared.CurrencyPair;
 import com.amiramit.bitsafe.shared.Exchange;
+import com.amiramit.bitsafe.shared.trigger.PriceTriggerType;
+import com.amiramit.bitsafe.shared.trigger.TriggerAdvice;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Window;
+
+
 
 public abstract class CreateNewRuleBaseUI{
 	
+	private static final Logger LOG = Logger.getLogger(Bitsafe.class.getName());
 
+	protected RuleUIType type;
 	protected Exchange[] exchanges;
 	protected CurrencyPair[] currencyPairs;
 	protected String userMainEmailAddress;
@@ -28,7 +45,7 @@ public abstract class CreateNewRuleBaseUI{
 	protected String[] actionStrings = {"Alert Me","Buy", "Sell"};
 	protected String[] StopLossTriggerStrings = {"Price Drops Below","Price Rises Above"};
 	protected String[] LimitTriggerStrings = {"Price Is in the Range"};
-	
+	protected String[] NotificationStrings = {"Notify me by Mail","Notify me by SMS"};
 	
 	// Exchanges drop down elements
 	protected ButtonGroup exchangeButtonGroup;
@@ -40,6 +57,14 @@ public abstract class CreateNewRuleBaseUI{
 	protected InputGroup actionAmountInputGroup;
 	protected InputGroupAddon actionAmountGroupAddon;
 	protected TextBox actionAmountTextBox;
+	protected String actionAmount;
+		
+	protected TextBox priceTextBox;
+	protected TextBox belowPriceValueTextBox;
+	protected TextBox abovePriceValueTextBox;
+	
+	
+	
 	
 	// Selected action elements 
 	protected ButtonGroup actionButtonGroup;
@@ -107,15 +132,50 @@ public abstract class CreateNewRuleBaseUI{
 	
 	
 	protected void initPriceBoxElement(final InputGroup priceInputGroup, final InputGroupAddon priceInputGroupAddon,
-			final TextBox priceTextBox){
+			final TextBox textBox, final String placeHolderStr){
 		
-		priceTextBox.setWidth("93");
+		textBox.setWidth("93");
 		priceInputGroupAddon.setText("USD$");
-		priceTextBox.setPlaceholder("0.00");
+		if(placeHolderStr.equals(""))
+			textBox.setPlaceholder("0.00");
+		else
+			textBox.setPlaceholder(placeHolderStr);
+		
+		textBox.addFocusHandler(new FocusHandler(){
+			public void onFocus(final FocusEvent event) {
+				
+			}
+			
+		});
+		
+		textBox.addBlurHandler(new BlurHandler(){
+			public void onBlur(final BlurEvent event) {
+				if(!vlidateTextBoxField(textBox)){
+					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+				}
+				else
+					textBox.setText(textBox.getValue());
+			}
+			
+		});
+		
+		
+		
+		textBox.addValueChangeHandler(new ValueChangeHandler<String>(){				
+			public void onValueChange(final ValueChangeEvent<String> event){
+				if(!vlidateTextBoxField(textBox)){
+					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+				}
+				else
+					textBox.setText(textBox.getValue());
+			}
+			
+		});	
+		
 		
 		
 		priceInputGroup.add(priceInputGroupAddon);
-		priceInputGroup.add(priceTextBox);
+		priceInputGroup.add(textBox);
 		
 		
 	}
@@ -126,9 +186,35 @@ public abstract class CreateNewRuleBaseUI{
 		actionAmountGroupAddon = new InputGroupAddon();
 		actionAmountTextBox = new TextBox();
 		
+		
 		actionAmountTextBox.setWidth("100");
 		actionAmountGroupAddon.setText("BTC");
 		actionAmountTextBox.setPlaceholder("0.00");
+		
+		actionAmountTextBox.addFocusHandler(new FocusHandler(){
+			public void onFocus(final FocusEvent event) {
+
+			}
+			
+		});
+		
+		actionAmountTextBox.addBlurHandler(new BlurHandler(){
+			public void onBlur(final BlurEvent event) {
+				actionAmountTextBox.setText(actionAmountTextBox.getValue());
+			}
+			
+			
+		});
+		
+		actionAmountTextBox.addValueChangeHandler(new ValueChangeHandler<String>(){				
+			public void onValueChange(final ValueChangeEvent<String> event){
+				if(!vlidateTextBoxField(actionAmountTextBox)){
+					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+				}
+				
+			}
+			
+		});	
 		
 		actionAmountInputGroup.add(actionAmountGroupAddon);
 		actionAmountInputGroup.add(actionAmountTextBox);
@@ -209,10 +295,31 @@ public abstract class CreateNewRuleBaseUI{
 		notifyMeBySMS = new CheckBox();
 		
 		
-		notifyMeByMail.setText("Notify by Mail");
-		notifyMeBySMS.setText("Notify by SMS");
+		notifyMeByMail.setText(NotificationStrings[0]);
+		notifyMeBySMS.setText(NotificationStrings[1]);
 		
 		notifyMeByGroupButton.add(notifyMeByMail);
+		notifyMeByMail.addClickHandler(new ClickHandler(){
+			public void onClick(final ClickEvent event){
+				if(!notifyMeByMail.getValue())
+					LOG.info("CLIENT::Mail Notification status is now false");
+					
+				else
+					LOG.info("CLIENT::Mail Notification status is now true");
+			}
+		});
+		
+		notifyMeBySMS.addClickHandler(new ClickHandler(){
+			public void onClick(final ClickEvent event){
+				if(!notifyMeBySMS.getValue())
+					LOG.info("CLIENT::SMS Notification status is now false");
+					
+				else
+					LOG.info("CLIENT::SMS Notification status is now true");
+			}
+		});
+		
+		
 		notifyMeByGroupButton.add(notifyMeBySMS);
 		notifyMeByInputGroup.add(notifyMeByGroupButton);
 		
@@ -237,6 +344,7 @@ public abstract class CreateNewRuleBaseUI{
 				
 					if(!listItem.getText().equals("Alert Me")){
 					actionAmountInputGroup.setVisible(true);
+					button.setWidth(Integer.toString(actionAmountInputGroup.getOffsetWidth()));
 				}
 				else{
 					actionAmountInputGroup.setVisible(false);
@@ -270,15 +378,15 @@ public abstract class CreateNewRuleBaseUI{
 		return userPhoneNumber; 
 	}
 	
+	
 	public ButtonGroup getExchangeButtonGroup(){
 		return exchangeButtonGroup;
 	}
 	
-	
-	public InputGroup getAactionAmountInputGroup(){
-		return actionAmountInputGroup;
+	public Exchange getSelectedExchange(){
+		LOG.info("CLIENT::getSelectedExchange start");
+		return exchanges[0].getExchangeByDisplayName(exchangeDropDownButton.getText());
 	}
-		
 	
 	public ButtonGroup getActionButtonGroup(){
 		return actionButtonGroup;
@@ -288,17 +396,116 @@ public abstract class CreateNewRuleBaseUI{
 		return notifyMeByInputGroup;
 	}
 	
+	public InputGroup getAactionAmountInputGroup(){
+		return actionAmountInputGroup;
+	}
 	
-	protected boolean validateTextBoxNumberInput(String textBoxString){
+	public RuleUIType getType(){
+		return type;
+	}
+	
 		
-		boolean isValid = true;
-		if (isValid){
-		      // textBoxString is a valid double
-			return isValid;
-		  }
-		  else {
-		      return isValid;
-		  }
+	public BigDecimal getTextBoxDecimalValue(TextBoxIdentifier id){
+		
+		BigDecimal bg;
+
+		switch (id){
+		case STOP_PRICE:{
+			if(vlidateTextBoxField(priceTextBox)){
+				try {
+					LOG.info("CLIENT::getTextBoxValue STOP_PRICE - priceTextBox value is: "+priceTextBox.getValue());
+					bg = new BigDecimal(priceTextBox.getValue());
+					return bg;
+				} catch (Exception e) {
+					e.printStackTrace();
+					break;
+				}
+			}
+
+		}break;
+		case BELOW_LIMIT:{
+			if(vlidateTextBoxField(belowPriceValueTextBox)){
+				try {
+					LOG.info("CLIENT::getTextBoxValue BELOW_LIMIT - belowPriceValueTextBox value is: "+belowPriceValueTextBox.getValue());
+					bg = new BigDecimal(belowPriceValueTextBox.getValue());
+					return bg;
+				} catch (Exception e) {
+					e.printStackTrace();
+					break;
+
+				}
+			}
+
+		}break;
+		case ABOVE_LIMIT:{
+			if(vlidateTextBoxField(abovePriceValueTextBox)){
+				try {
+					LOG.info("CLIENT::getTextBoxValue ABOVE_LIMIT - abovePriceValueTextBox value is: "+abovePriceValueTextBox.getValue());
+					bg = new BigDecimal(abovePriceValueTextBox.getValue());
+					return bg;
+				} catch (Exception e) {
+					e.printStackTrace();
+					break;
+
+				}
+			}
+
+		}break;
+
+		case ACTION_AMOUNT:{
+			if(vlidateTextBoxField(actionAmountTextBox)){
+				try {
+					LOG.info("CLIENT::getTextBoxValue ACTION_AMOUNT - actionAmountTextBox value is: "+actionAmountTextBox.getValue());
+					bg = new BigDecimal(actionAmountTextBox.getValue());
+					return bg;
+				} catch (Exception e) {
+					e.printStackTrace();
+					break;
+
+				}
+			}
+
+		}break;
+		default:
+			if(vlidateTextBoxField(actionAmountTextBox)){
+				try {
+					LOG.info("CLIENT::getTextBoxValue CASE DEFAULT - actionAmountTextBox value is: "+actionAmountTextBox.getValue());
+					bg = new BigDecimal(actionAmountTextBox.getValue());
+					return bg;
+				} catch (Exception e) {
+					e.printStackTrace();
+					break;
+
+				}
+			}
+		}
+		bg = new BigDecimal(30);
+		return bg;
+	}
+
+	public TriggerAdvice getSelectedTriggerAdvice(){
+		String str = actionDropDownButton.getText();
+		LOG.info("CLIENT::getSelectedTriggerAdvice start");
+		if(str.equals(actionStrings[0]))
+			return TriggerAdvice.SELL;
+		if(str.equals(actionStrings[1]))
+			return TriggerAdvice.BUY;
+		else return TriggerAdvice.SELL;
+	}
+	
+	public abstract PriceTriggerType getSelectedPriceTriggerType();
+	
+	public abstract boolean verify();
+				
+	
+	protected boolean vlidateTextBoxField(TextBox tb){
+		
+		//TBD
+		if(!tb.getValue().matches("[0-9]*") && !(tb.getValue().matches("[0-9]*.[0-9]*"))){
+			Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+			return false;
+		}
+		return true;
 	}
 
 }

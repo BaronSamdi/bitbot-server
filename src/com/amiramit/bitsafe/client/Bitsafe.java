@@ -1,6 +1,5 @@
 package com.amiramit.bitsafe.client;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +21,9 @@ import com.amiramit.bitsafe.client.service.UILoginInfo;
 import com.amiramit.bitsafe.client.uitypes.uibeans.UIBeanFactory;
 import com.amiramit.bitsafe.client.uitypes.uibeans.UITicker;
 import com.amiramit.bitsafe.shared.CurrencyPair;
-import com.amiramit.bitsafe.shared.Exchange;
+import com.amiramit.bitsafe.shared.UIVerifyException;
 import com.amiramit.bitsafe.shared.action.LogAction;
 import com.amiramit.bitsafe.shared.trigger.PriceTrigger;
-import com.amiramit.bitsafe.shared.trigger.PriceTriggerType;
-import com.amiramit.bitsafe.shared.trigger.TriggerAdvice;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -263,15 +260,19 @@ public class Bitsafe implements EntryPoint {
 		});
 	}
 
-	private void addRule() {
+	private void addRule(CreateNewRuleBaseUI ruleUI) {
 		final RuleDTO newRule = new RuleDTO("Test", true, new PriceTrigger(
-				Exchange.MtGox, CurrencyPair.BTCUSD, PriceTriggerType.LOWER,
-				new BigDecimal(500000), TriggerAdvice.SELL), new LogAction());
+				ruleUI.getSelectedExchange(), CurrencyPair.BTCUSD, ruleUI.getSelectedPriceTriggerType(),
+				ruleUI.getPriceTextBoxValue(ruleUI.getType()), ruleUI.getSelectedTriggerAdvice()), new LogAction());
 
 		// Assume the operation will succeed, and remove rule if it fails to get
 		// faster UI response.
 		rulesDataProvider.getList().add(newRule);
-
+		try {
+			newRule.verify();
+		} catch (UIVerifyException e) {
+			e.printStackTrace();
+		}
 		ruleService.addRule(newRule, new AsyncCallback<Long>() {
 			@Override
 			public void onSuccess(final Long key) {
@@ -352,36 +353,31 @@ public class Bitsafe implements EntryPoint {
 		RootPanel.get("lastUpdatedContainer").add(lastUpdatedLabel);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 
-		stpLoss = new CreateStopLossUITemplate();
-		//stpLimit = new CreateStopLimitUITemplate();
-		
-		// add button groups to root panel 
-		//RootPanel.get("dropDownButtonGroup1").add(stpLoss.getModal());
-		///*
-		RootPanel.get("dropDownButtonGroup1").add(stpLoss.getExchangeButtonGroup());
-		RootPanel.get("dropDownButtonGroup2").add(stpLoss.getPriceTriggerButtonGroup());
-		RootPanel.get("dropDownButtonGroup3").add(stpLoss.getPriceValueInputGroup());
-		RootPanel.get("dropDownButtonGroup4").add(stpLoss.getActionButtonGroup());
-		RootPanel.get("dropDownButtonGroup5").add(stpLoss.getAactionAmountInputGroup());
-		RootPanel.get("dropDownButtonGroup6").add(stpLoss.getNotifyMeByInputGroup());
-		//*/
+		//stpLoss = new CreateStopLossUITemplate();
+		stpLimit = new CreateStopLimitUITemplate();
 		
 		/*
-		RootPanel.get("dropDownButtonGroup1").add(stpLimit.getExchangeButtonGroup());
-		RootPanel.get("dropDownButtonGroup2").add(stpLimit.getPriceRangeTriggerButtonGroup());
-		RootPanel.get("dropDownButtonGroup3").add(stpLimit.getAbovePriceValueInputGroup());
-		RootPanel.get("dropDownButtonGroup4").add(stpLimit.getBelowPriceValueInputGroup());
-		RootPanel.get("dropDownButtonGroup5").add(stpLimit.getActionButtonGroup());
-		RootPanel.get("dropDownButtonGroup6").add(stpLimit.getAactionAmountInputGroup());
-		RootPanel.get("dropDownButtonGroup7").add(stpLimit.getNotifyMeByInputGroup());
+		RootPanel.get("dropDownButtonGroup1").add(stpLoss.getExchangeButtonGroup());
+		RootPanel.get("dropDownButtonGroup2").add(stpLoss.getPriceValueInputGroup());
+		RootPanel.get("dropDownButtonGroup3").add(stpLoss.getActionAmountInputGroup());
+		RootPanel.get("dropDownButtonGroup4").add(stpLoss.getNotifyMeByInputGroup());
 		*/
+		
+		///*
+		RootPanel.get("dropDownButtonGroup1").add(stpLimit.getExchangeButtonGroup());
+		RootPanel.get("dropDownButtonGroup2").add(stpLimit.getPriceRangeInputGroup());
+		RootPanel.get("dropDownButtonGroup3").add(stpLimit.getActionAmountInputGroup());
+		RootPanel.get("dropDownButtonGroup4").add(stpLimit.getNotifyMeByInputGroup());
+		//*/
+		
 		final Button saveRuleButton = new Button("Save Changes");
 		saveRuleButton.setType(ButtonType.PRIMARY);
 		saveRuleButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(final ClickEvent event) {
-				addRule();	
+				addRule(stpLimit);
+				//addRule(stpLoss);
 			}
 		});
 		RootPanel.get("addNewRuleButton").add(saveRuleButton);
