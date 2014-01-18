@@ -151,7 +151,8 @@ public abstract class CreateNewRuleBaseUI{
 		textBox.addBlurHandler(new BlurHandler(){
 			public void onBlur(final BlurEvent event) {
 				if(!vlidateTextBoxField(textBox)){
-					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+					Window.alert("Client:: addBlurHandler - Please insert a valid amount ");
+					LOG.info("Client:: addBlurHandler - value is "+textBox.getValue());
 				}
 				else
 					textBox.setText(textBox.getValue());
@@ -163,11 +164,11 @@ public abstract class CreateNewRuleBaseUI{
 		
 		textBox.addValueChangeHandler(new ValueChangeHandler<String>(){				
 			public void onValueChange(final ValueChangeEvent<String> event){
-				if(!vlidateTextBoxField(textBox)){
-					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
-				}
-				else
-					textBox.setText(textBox.getValue());
+//				if(!vlidateTextBoxField(textBox)){
+//					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+//				}
+//				else
+//					textBox.setText(textBox.getValue());
 			}
 			
 		});	
@@ -208,9 +209,9 @@ public abstract class CreateNewRuleBaseUI{
 		
 		actionAmountTextBox.addValueChangeHandler(new ValueChangeHandler<String>(){				
 			public void onValueChange(final ValueChangeEvent<String> event){
-				if(!vlidateTextBoxField(actionAmountTextBox)){
-					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
-				}
+//				if(!vlidateTextBoxField(actionAmountTextBox)){
+//					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+//				}
 				
 			}
 			
@@ -501,10 +502,13 @@ public abstract class CreateNewRuleBaseUI{
 	protected boolean vlidateTextBoxField(TextBox tb){
 		
 		//TBD
-		if(!tb.getValue().matches("[0-9]*") && !(tb.getValue().matches("[0-9]*.[0-9]*"))){
-			Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
-			return false;
+		if(tb != null){
+			if( !( tb.getValue().matches("[0-9]*") || tb.getValue().matches("[0-9]*.[0-9]*") ) ){
+				LOG.info("CLIENT::vlidateTextBoxField - FALSE with value - "  +tb.getValue());
+				return false;
+			}
 		}
+		LOG.info("CLIENT::vlidateTextBoxField - TRUE");
 		return true;
 	}
 
