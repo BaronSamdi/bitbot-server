@@ -7,10 +7,15 @@ import java.util.logging.Logger;
 
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.IconType;
 
 import com.amiramit.bitsafe.client.channel.Channel;
 import com.amiramit.bitsafe.client.channel.ChannelListener;
 import com.amiramit.bitsafe.client.dto.RuleDTO;
+import com.amiramit.bitsafe.client.ruleUI.CreateNewRuleBaseUI;
+import com.amiramit.bitsafe.client.ruleUI.CreateStopLimitUITemplate;
+import com.amiramit.bitsafe.client.ruleUI.CreateStopLossUITemplate;
+import com.amiramit.bitsafe.client.ruleUI.TextBoxIdentifier;
 import com.amiramit.bitsafe.client.service.LoginInfoService;
 import com.amiramit.bitsafe.client.service.LoginInfoServiceAsync;
 import com.amiramit.bitsafe.client.service.PushService;
@@ -261,9 +266,11 @@ public class Bitsafe implements EntryPoint {
 	}
 
 	private void addRule(CreateNewRuleBaseUI ruleUI) {
+		
+		
 		final RuleDTO newRule = new RuleDTO("Test", true, new PriceTrigger(
 				ruleUI.getSelectedExchange(), CurrencyPair.BTCUSD, ruleUI.getSelectedPriceTriggerType(),
-				ruleUI.getPriceTextBoxValue(ruleUI.getType()), ruleUI.getSelectedTriggerAdvice()), new LogAction());
+				ruleUI.getTextBoxDecimalValue(TextBoxIdentifier.STOP_PRICE), ruleUI.getSelectedTriggerAdvice()), new LogAction());
 
 		// Assume the operation will succeed, and remove rule if it fails to get
 		// faster UI response.
@@ -353,34 +360,52 @@ public class Bitsafe implements EntryPoint {
 		RootPanel.get("lastUpdatedContainer").add(lastUpdatedLabel);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 
-		//stpLoss = new CreateStopLossUITemplate();
+		
+		final Button addNewStopLimitRuleButton = new Button("New Stop Limit Rule");
+		addNewStopLimitRuleButton.setType(ButtonType.SUCCESS);
+		addNewStopLimitRuleButton.setIcon(IconType.PLUS);
+
 		stpLimit = new CreateStopLimitUITemplate();
-		
-		/*
-		RootPanel.get("dropDownButtonGroup1").add(stpLoss.getExchangeButtonGroup());
-		RootPanel.get("dropDownButtonGroup2").add(stpLoss.getPriceValueInputGroup());
-		RootPanel.get("dropDownButtonGroup3").add(stpLoss.getActionAmountInputGroup());
-		RootPanel.get("dropDownButtonGroup4").add(stpLoss.getNotifyMeByInputGroup());
-		*/
-		
-		///*
 		RootPanel.get("dropDownButtonGroup1").add(stpLimit.getExchangeButtonGroup());
 		RootPanel.get("dropDownButtonGroup2").add(stpLimit.getPriceRangeInputGroup());
 		RootPanel.get("dropDownButtonGroup3").add(stpLimit.getActionAmountInputGroup());
-		RootPanel.get("dropDownButtonGroup4").add(stpLimit.getNotifyMeByInputGroup());
-		//*/
+		RootPanel.get("dropDownButtonGroup4").add(stpLimit.getNotifyMeByInputGroup());	
+			
+		RootPanel.get("addNewStopLimitRuleButton").add(addNewStopLimitRuleButton);
 		
-		final Button saveRuleButton = new Button("Save Changes");
-		saveRuleButton.setType(ButtonType.PRIMARY);
-		saveRuleButton.addClickHandler(new ClickHandler() {
+		final Button addNewStopLossRuleButton = new Button("New Stop Loss Rule");
+		addNewStopLossRuleButton.setType(ButtonType.SUCCESS);
+		addNewStopLossRuleButton.setIcon(IconType.PLUS);
 
+		stpLoss = new CreateStopLossUITemplate();
+		RootPanel.get("dropDownButtonGroup5").add(stpLoss.getExchangeButtonGroup());
+		RootPanel.get("dropDownButtonGroup6").add(stpLoss.getPriceValueInputGroup());
+		RootPanel.get("dropDownButtonGroup7").add(stpLoss.getActionAmountInputGroup());
+		RootPanel.get("dropDownButtonGroup8").add(stpLoss.getNotifyMeByInputGroup());	
+			
+		RootPanel.get("addNewStopLossRuleButton").add(addNewStopLossRuleButton);
+		RootPanel.get("saveStopLossRuleButton").add(stpLoss.getSaveStopLossRuleButton());
+		RootPanel.get("saveStopLimitRuleButton").add(stpLimit.getSaveStopLimitRuleButton());
+		stpLoss.getSaveStopLossRuleButton().addClickHandler(new ClickHandler() {
+			
 			@Override
 			public void onClick(final ClickEvent event) {
-				addRule(stpLimit);
-				//addRule(stpLoss);
+				if(stpLoss.verify())
+					addRule(stpLoss);
+				
 			}
 		});
-		RootPanel.get("addNewRuleButton").add(saveRuleButton);
+				
+		stpLimit.getSaveStopLimitRuleButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(final ClickEvent event) {
+				if(stpLimit.verify())
+					addRule(stpLimit);
+				
+			}
+		});
+		
 		
 
 		// Set up sign out hyperlink.

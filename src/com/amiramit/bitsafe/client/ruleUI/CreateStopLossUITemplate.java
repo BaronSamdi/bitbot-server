@@ -97,7 +97,9 @@ public class CreateStopLossUITemplate extends CreateNewRuleBaseUI{
 	}
 	
 	public boolean verify(){
-		if(!vlidateTextBoxField(belowPriceValueTextBox))
+		if(!vlidateTextBoxField(priceTextBox))
+			return false;
+		if(!vlidateTextBoxField(actionAmountTextBox))
 			return false;
 		return true;
 	}

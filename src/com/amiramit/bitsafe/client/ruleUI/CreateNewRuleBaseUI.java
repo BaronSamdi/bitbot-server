@@ -12,6 +12,7 @@ import org.gwtbootstrap3.client.ui.InputGroupAddon;
 import org.gwtbootstrap3.client.ui.InputGroupButton;
 import org.gwtbootstrap3.client.ui.ListItem;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.constants.ButtonDismiss;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.Toggle;
 
@@ -77,15 +78,26 @@ public abstract class CreateNewRuleBaseUI{
 	protected InputGroupButton notifyMeByGroupButton;
 	protected CheckBox notifyMeByMail;
 	protected CheckBox notifyMeBySMS;
-	
+	protected Button saveStopLossRuleButton = new Button("Save Changes");
+	protected Button saveStopLimitRuleButton = new Button("Save Changes");
 	private int index;
 
 	public CreateNewRuleBaseUI(final Exchange[] exchanges, final CurrencyPair[] currencyPairs,
 			String userMainEmailAddres, String userPhoneNumber) {
+		initSaveRulesbuttons();
 		this.exchanges = exchanges;
 		this.currencyPairs = currencyPairs;
 		this.userMainEmailAddress = userMainEmailAddres;
 		this.userPhoneNumber = userPhoneNumber;
+	}
+	
+	public void initSaveRulesbuttons(){
+		saveStopLossRuleButton.setType(ButtonType.PRIMARY);
+		saveStopLossRuleButton.setDismiss(ButtonDismiss.MODAL);
+		saveStopLossRuleButton.setEnabled(false);
+		saveStopLimitRuleButton.setType(ButtonType.PRIMARY);
+		saveStopLimitRuleButton.setDismiss(ButtonDismiss.MODAL);
+		saveStopLimitRuleButton.setEnabled(false);
 	}
 	
 	
@@ -153,26 +165,21 @@ public abstract class CreateNewRuleBaseUI{
 				if(!vlidateTextBoxField(textBox)){
 					Window.alert("Client:: addBlurHandler - Please insert a valid amount ");
 					LOG.info("Client:: addBlurHandler - value is "+textBox.getValue());
+					
 				}
-				else
-					textBox.setText(textBox.getValue());
 			}
 			
 		});
 		
-		
-		
 		textBox.addValueChangeHandler(new ValueChangeHandler<String>(){				
 			public void onValueChange(final ValueChangeEvent<String> event){
-//				if(!vlidateTextBoxField(textBox)){
-//					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
-//				}
-//				else
-//					textBox.setText(textBox.getValue());
+				if(!vlidateTextBoxField(textBox)){
+					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+					
+				}
 			}
 			
 		});	
-		
 		
 		
 		priceInputGroup.add(priceInputGroupAddon);
@@ -201,7 +208,10 @@ public abstract class CreateNewRuleBaseUI{
 		
 		actionAmountTextBox.addBlurHandler(new BlurHandler(){
 			public void onBlur(final BlurEvent event) {
-				actionAmountTextBox.setText(actionAmountTextBox.getValue());
+				if(!vlidateTextBoxField(actionAmountTextBox)){
+					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+					
+				}
 			}
 			
 			
@@ -209,9 +219,10 @@ public abstract class CreateNewRuleBaseUI{
 		
 		actionAmountTextBox.addValueChangeHandler(new ValueChangeHandler<String>(){				
 			public void onValueChange(final ValueChangeEvent<String> event){
-//				if(!vlidateTextBoxField(actionAmountTextBox)){
-//					Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
-//				}
+				if(!vlidateTextBoxField(actionAmountTextBox)){
+				Window.alert("Client:: ValueChangeHandler - Please insert a valid amount ");
+				
+				}
 				
 			}
 			
@@ -405,6 +416,14 @@ public abstract class CreateNewRuleBaseUI{
 		return type;
 	}
 	
+	public Button getSaveStopLossRuleButton(){
+		return saveStopLossRuleButton;
+	}
+	
+	public Button getSaveStopLimitRuleButton(){
+		return saveStopLimitRuleButton;
+	}
+	
 		
 	public BigDecimal getTextBoxDecimalValue(TextBoxIdentifier id){
 		
@@ -503,12 +522,21 @@ public abstract class CreateNewRuleBaseUI{
 		
 		//TBD
 		if(tb != null){
-			if( !( tb.getValue().matches("[0-9]*") || tb.getValue().matches("[0-9]*.[0-9]*") ) ){
-				LOG.info("CLIENT::vlidateTextBoxField - FALSE with value - "  +tb.getValue());
+			if( !( tb.getValue().matches("[0-9]+") || tb.getValue().matches("0.[0-9]+") || tb.getValue().matches("[0-9]+.[0-9]+")) ){
+				LOG.info("CLIENT::vlidateTextBoxField - "+tb+" FALSE with value - "  +tb.getValue());
+				saveStopLossRuleButton.setEnabled(false);
+				saveStopLimitRuleButton.setEnabled(false);
 				return false;
 			}
+			else{
+				LOG.info("CLIENT::vlidateTextBoxField - "+tb+" TRUE with value - "  +tb.getValue());
+				saveStopLossRuleButton.setEnabled(true);
+				saveStopLimitRuleButton.setEnabled(true);
+				return true;
+			}
 		}
-		LOG.info("CLIENT::vlidateTextBoxField - TRUE");
+		saveStopLossRuleButton.setEnabled(true);
+		saveStopLimitRuleButton.setEnabled(true);
 		return true;
 	}
 

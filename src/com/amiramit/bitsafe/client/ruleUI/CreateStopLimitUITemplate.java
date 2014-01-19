@@ -120,6 +120,9 @@ public class CreateStopLimitUITemplate extends CreateNewRuleBaseUI{
 		
 		if(!vlidateTextBoxField(abovePriceValueTextBox))
 			return false;
+		
+		if(!vlidateTextBoxField(actionAmountTextBox))
+			return false;
 		 //IF Below limit is not LESS OR EQAL to above limit
 		if(getTextBoxDecimalValue(TextBoxIdentifier.BELOW_LIMIT).compareTo(getTextBoxDecimalValue(TextBoxIdentifier.ABOVE_LIMIT)) > 0){
 			Window.alert("Client:: StopLimit.verify - Please insert a valid range ");
